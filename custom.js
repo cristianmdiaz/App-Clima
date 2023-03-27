@@ -1,3 +1,4 @@
+import { apiConfig } from './config.js';
 const result = document.querySelector('.result');
 const form = document.querySelector('.get-weather');
 const nameCity = document.querySelector('#city');
@@ -12,30 +13,28 @@ form.addEventListener('submit', (e) => {
   }
 
   callAPI(nameCity.value, nameCountry.value);
-  // console.log(nameCity.value);
-  // console.log(nameCountry.value);
 })
 
 function callAPI(city, country){
-   const apiId = '50b8a938a898deee2dea0c2ce9eb27bc';
-   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${apiId}`;
+  const apiId = apiConfig.apiKey;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${apiId}`;
 
-   fetch(url)
-      .then(data => {
-        return data.json();
-      })
-      .then(dataJSON =>{
-        if (dataJSON.cod === '404'){
-          showError('Ciudad no encontrada...');
-        } else {
-          clearHTML();
-          showWeather(dataJSON);
-        }
-        // console.log(dataJSON);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  fetch(url)
+    .then(data => {
+      return data.json();
+    })
+    .then(dataJSON =>{
+      if (dataJSON.cod === '404'){
+        showError('Ciudad no encontrada...');
+      } else {
+        clearHTML();
+        showWeather(dataJSON);
+      }
+      // console.log(dataJSON);
+    })
+    .catch(error => {
+      console.log(error);
+    })
 }
 
 function showWeather(data){
@@ -55,12 +54,6 @@ function showWeather(data){
   `;
 
   result.appendChild(content);
-
-  // console.log(name);
-  // console.log(temp);
-  // console.log(temp_min);
-  // console.log(temp_max);
-  // console.log(arr.icon);
 }
 
 function showError(message){
